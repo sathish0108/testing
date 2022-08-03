@@ -1,5 +1,4 @@
 
-
 <html>
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,26 +53,26 @@
             schema : { speed : {default:1}},
             init : function (){
     
-              this.ifTouchStart = true;
+              this.ifMouseDown = true;
               this.x_cord = 0;
               // this.y_cord = 0;
               
-              document.addEventListener('touchstart',this.OnDocumentTouchStart.bind(this));
-              document.addEventListener('touchend',this.OnDocumentTouchEnd.bind(this));
-              document.addEventListener('touchmove',this.OnDocumentTouchMove.bind(this));
+              document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
+              document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
+              document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
               
             },
-            OnDocumentTouchStart : function(event){
-              this.ifTouchStart = true;
+            OnDocumentMouseDown : function(event){
+              this.ifMouseDown = true;
               this.x_cord = event.clientX;
               // this.y_cord = event.clientY;
             },
-            OnDocumentTouchEnd : function(){
-              this.ifTouchStart = false;
+            OnDocumentMouseUp : function(){
+              this.ifMouseDown = false;
             },
-            OnDocumentTouchMove : function(event)
+            OnDocumentMouseMove : function(event)
             {
-              if(this.ifTouchStart && event_yorn ==true)
+              if(this.ifMouseDown && event_yorn ==true)
               {
                 var temp_x = event.clientX-this.x_cord;
                 // var temp_y = event.clientY-this.y_cord;
@@ -96,7 +95,7 @@
       </script>
   
   
-  <a-scene  cursor="rayOrigin: mouse"  vr-mode-ui="enabled:false">
+  <a-scene  vr-mode-ui="enabled:false">
     
         <a-entity gltf-model="movement.glb"
       modify-materials  position="-1.800 -5 -7" scale="5 5 5" rotation="0 -45 0"
@@ -313,9 +312,6 @@
     </body>
     
     </html>
-  
-  
-    
   
   
     
