@@ -1,336 +1,317 @@
 
 <html>
-  <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  
-  <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v5.0.1/dist/aframe-extras.min.js"></script>
-</head>
-
-<body>
-
-      <style>
-      body {
-            opacity: -3;
-            transition: opacity 4.25s;
-            background-color: RGB(191, 193, 201);
-        }
-      </style>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      <!-- <script type="text/javascript" src="main1.js"></script>  -->
-  </head><!--   w w   w . d   e   m  o 2   s . c  o   m -->
-  <body onload="document.body.style.opacity='1'"> 
- 
-
-      
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+      <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v5.0.1/dist/aframe-extras.min.js"></script>
+  </head>
   
-
-
-
-  <script>
-    let event_yorn = false
-    function button(){
-      console.log("hi");
-      document.getElementById('Glow800video').style.pointerEvents = 'none';
-      document.getElementById('Fl800video').style.pointerEvents = 'none';
-      document.getElementById('bianocular').style.pointerEvents = 'none';
-      document.getElementById('monitor').style.pointerEvents = 'none';
-    document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById("cam3").setAttribute("visible", false);
-    document.getElementById("cam5").setAttribute("visible", false);
-
-    document.getElementById("camera3").setAttribute("visible", true);
-    document.querySelector("#cam").emit("movecam_4");
-    document.getElementById('bianocular').style.color = "#818181";
-    document.getElementById('monitor').style.color = "#818181";
-
-    document.getElementById('Fl800video').style.color = "#818181";
-
-    document.getElementById('Glow800video').style.color = "#818181";
-
-
+  <body>
   
-  
-      if(event_yorn == false){
-        event_yorn =true;
-      }
-    
-    }
-    AFRAME.registerComponent('modify-materials',{   
-          schema : { speed : {default:1}},
-          init : function (){
-  
-            this.ifMouseDown = true;
-            this.x_cord = 0;
-            // this.y_cord = 0;
-            
-            document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-            document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-            document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-            
-          },
-          OnDocumentMouseDown : function(event){
-            this.ifMouseDown = true;
-            this.x_cord = event.clientX;
-            // this.y_cord = event.clientY;
-          },
-          OnDocumentMouseUp : function(){
-            this.ifMouseDown = false;
-          },
-          OnDocumentMouseMove : function(event)
-          {
-            if(this.ifMouseDown && event_yorn ==true)
-            {
-              var temp_x = event.clientX-this.x_cord;
-              // var temp_y = event.clientY-this.y_cord;
-              if(Math.abs(temp_x))
-              {
-                this.el.object3D.rotateY(temp_x*this.data.speed/100);
-              }
-              // else
-              // {
-              //   this.el.object3D.rotateX(temp_y*this.data.speed/100);
-              // }
-              this.x_cord = event.clientX;
-              // this.y_cord = event.clientY;
-            }
+        <style>
+        body {
+              opacity: -3;
+              transition: opacity 4.25s;
+              background-color: RGB(191, 193, 201);
           }
-          
-        });
-      
-    
-    </script>
-
-
-  
-      <a-entity gltf-model="movement.glb"
-    modify-materials  position="-1.800 -5 -7" scale="40 40 40" rotation="0 -45 0"
-  id="camera3"
-      animation__5="property: rotation; from: 0 -80 0; to:0 280 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false">   
-  <a-entity  position="1.095 0.700 1.838" rotation="-54.312 64.355 -76.143" >
-    
-    <a-camera camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false" camera="fov:5" >
-    </a-camera></a-entity>
-      <a-entity id="cam1" light="type: spot; angle: 5; intensity: 50" position="1.307 0.983 0.247" rotation="270 0 0" color="yellow" > </a-entity>
-      <a-entity geometry="primitive:plane; "
-      material="src:#cam2; opacity: 1" canvas-updater
-      position="0.202 1.444 -0.567" rotation="0 81.441 0" scale="0.620 0.400 0.200" id="cam4"  ></a-entity>
-      
-      </a-entity>
-
-<a-entity camera position="0 0 0" id="camentity" rotation="0 0 0">
-
-<a-camera id="cam" look-controls="enabled:false	" wasd-controls-enabled="false" >
-</a-camera>
-
-
-
-
-
-</a-entity>
-  
-    
-  
-    
-  <a-entity light="type: point; intensity: 1; " position="13.445 0.374 0.747"></a-entity> 
-   <a-entity light="type: point; intensity: 1;" position="-0.409 -1.229 4.786" rotation="-43.082 180 180" > </a-entity>
-   <a-entity light="type: point;  intensity: 1;" position="-0.855 0.495 -13.072" rotation="-31.247 180 180" > </a-entity>
-
-   <a-entity light="type: ambient; intensity:.2;  color: #ffffff"></a-entity>
+        </style>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- <script type="text/javascript" src="main1.js"></script>  -->
+    </head><!--   w w   w . d   e   m  o 2   s . c  o   m -->
+    <body onload="document.body.style.opacity='1'"> 
+   
   
         
-  </a-scene>
-  
-<style>
-    body {
-      font-family: "Lato", sans-serif;
-    }
-    
-    .sidenav {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: #081d52;
-      overflow-x: hidden;
-      transition: 0.5s;
-      padding-top: 60px;
-    }
-    
-    .sidenav a {
-      padding: 8px 8px 8px -14px;
-      text-decoration: none;
-      font-size: 16px;
-      color: #f1f1f1;
-      display: block;
-      transition: 0.3s;
-    }
-    
-    .sidenav a:hover {
-      color: #818181;
-    }
-
-    .nav__logout {
-  margin-top: 19rem;
-}
-    .sidenav .closebtn {
-      position: absolute;
-      top: 0;
-      right: 8px;
-      font-size: 36px;
-      margin-left: 50px;
-    }
-    
-    #main {
-      transition: margin-left .5s;
-      padding: 16px;
-    }
-    
-    @media screen and (max-height: 450px) {
-      .sidenav {padding-top: 15px;}
-      .sidenav a {font-size: 18px;}
-    }
-    .nav__icon {
-  font-size: 1.2rem;
-  margin-right: .5rem;
-}
-  
-
-    
-    </style>
-    
- 
- 
-  <div id="fade" onClick="lightbox_close();"></div>
-  
-  
-  <nav class="sidebar">
-  <div id="mySidenav" class="sidenav" style="position: fixed; top: -5px; right: 250px; height:100%;">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
-    <hr>
-    <ul>
-     <a href="index4.html">
-      <i class='bx bx-home nav__icon' ></i>
-       
-       Lobby</a>
-    </ul>
-    <hr>
-    <ul>
       
-      <a href="#" id="bianocular" onclick="kameramove_2() " style="pointer-events: none; color: #818181;" onmouseover="htext2()" onmouseout="stext2()">
-        <i class='bx bx-zoom-in nav__icon'></i>
-        Zoom In Binocular</a>
     
-    </ul>
-    <hr>
-    <ul>
-     
-    <a href="#" onclick="kameramove_4() " >
-      <i class='bx bx-zoom-out nav__icon' ></i>
-      Zoom Out Binocular</a>
   
-</ul>
-<hr>
-<ul>
-     
-  <a href="#" id="monitor" onclick="kameramove_1() " style="pointer-events: none; color: #818181;" onmouseover="htext()" onmouseout="stext()">
-    <i class='bx bx-tv nav__icon' ></i>
-    Zoom In Monitor</a>
-
-</ul>
-<hr>
-<ul>
-     
-  <a href="#" onclick="kameramove_3() ">
-    <i class='bx bxs-tv nav__icon' ></i>
-    Zoom Out Monitor</a>
-
-</ul>
-<hr>
-<ul>
-     
-  <a href="#" id="Glow800video" onclick="switchVideoToFirst() " style="pointer-events: none; color: #818181;" onmouseover="htext3()" onmouseout="stext3()">
-    <i class='bx bxs-video-recording nav__icon' ></i>
-    Glow800</a>
-
-</ul>
-
-<hr>
-<ul>
-     
-  <a href="#" id="Fl800video" onclick="switchVideoToSecond() " style="pointer-events: none; color: #818181;" onmouseover="htext4()" onmouseout="stext4()">
-    <i class='bx bxs-video-plus nav__icon' ></i>
-    Fl800</a>
-
-</ul>
-
-<hr>
-<ul>
-     
-  <a href="#" onclick="button()" >
-    <i class='bx bx-collapse-horizontal nav__icon'></i>
-    Explore Equipment</a>
-
-</ul>
-
-
-<hr>
-<ul>
- 
-    <a href="#" onclick="button1()">
-      <i class='bx bxs-contact nav__icon' ></i>
-      Auto balancing</a>
   
-</ul>
-
-
-<ul>
- 
-  <a href="logout-user.php" id="clearButton" class="nav__logout" >
-    <i class='bx bx-log-out nav__icon'>
-
-    </i>Logout</a>
-
-
-</ul>
-  </div>
-</nav>
-
-  <span onclick="openNav()"  ><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" style="position: fixed; top:1%; right:96%; height:40px; width:auto; max-width:40px;" ></span>
-
-
   
-  <script>
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+    <script>
+      let event_yorn = false
+      function button(){
+        console.log("hi");
+      
+  
+  
+    
+    
+        if(event_yorn == false){
+          event_yorn =true;
+        }
+      
+      }
+      AFRAME.registerComponent('modify-materials',{   
+            schema : { speed : {default:1}},
+            init : function (){
+    
+              this.ifMouseDown = true;
+              this.x_cord = 0;
+              // this.y_cord = 0;
+              
+              document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
+              document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
+              document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
+              
+            },
+            OnDocumentMouseDown : function(event){
+              this.ifMouseDown = true;
+              this.x_cord = event.clientX;
+              // this.y_cord = event.clientY;
+            },
+            OnDocumentMouseUp : function(){
+              this.ifMouseDown = false;
+            },
+            OnDocumentMouseMove : function(event)
+            {
+              if(this.ifMouseDown && event_yorn ==true)
+              {
+                var temp_x = event.clientX-this.x_cord;
+                // var temp_y = event.clientY-this.y_cord;
+                if(Math.abs(temp_x))
+                {
+                  this.el.object3D.rotateY(temp_x*this.data.speed/100);
+                }
+                // else
+                // {
+                //   this.el.object3D.rotateX(temp_y*this.data.speed/100);
+                // }
+                this.x_cord = event.clientX;
+                // this.y_cord = event.clientY;
+              }
+            }
+            
+          });
+        
+      
+      </script>
+  
+  
+  <a-scene  cursor="rayOrigin: mouse"  vr-mode-ui="enabled:false">
+    
+        <a-entity gltf-model="movement.glb"
+      modify-materials  position="-1.800 -5 -7" scale="5 5 5" rotation="0 -45 0"
+    id="camera3"
+        animation__5="property: rotation; from: 0 -80 0; to:0 280 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false">   
+    <a-entity  position="1.095 0.700 1.838" rotation="-54.312 64.355 -76.143" >
+      
+      <a-camera camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false" camera="fov:5" >
+      </a-camera></a-entity>
+        <a-entity id="cam1" light="type: spot; angle: 5; intensity: 50" position="1.307 0.983 0.247" rotation="270 0 0" color="yellow" > </a-entity>
+        <a-entity geometry="primitive:plane; "
+        material="src:#cam2; opacity: 1" canvas-updater
+        position="0.202 1.444 -0.567" rotation="0 81.441 0" scale="0.620 0.400 0.200" id="cam4"  ></a-entity>
+        
+        </a-entity>
+  
+  <a-entity camera position="0 0 0" id="camentity" rotation="0 0 0">
+  
+  <a-camera id="cam" look-controls="enabled:false	" wasd-controls-enabled="false" >
+  </a-camera>
+  
+  
+  
+  
+  
+  </a-entity>
+    
+      
+    
+      
+    <a-entity light="type: point; intensity: 1; " position="13.445 0.374 0.747"></a-entity> 
+     <a-entity light="type: point; intensity: 1;" position="-0.409 -1.229 4.786" rotation="-43.082 180 180" > </a-entity>
+     <a-entity light="type: point;  intensity: 1;" position="-0.855 0.495 -13.072" rotation="-31.247 180 180" > </a-entity>
+  
+     <a-entity light="type: ambient; intensity:.2;  color: #ffffff"></a-entity>
+    
+          
+    </a-scene>
+    
+  <style>
+      body {
+        font-family: "Lato", sans-serif;
+      }
+      
+      .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #081d52;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+      }
+      
+      .sidenav a {
+        padding: 8px 8px 8px -14px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #f1f1f1;
+        display: block;
+        transition: 0.3s;
+      }
+      
+      .sidenav a:hover {
+        color: #818181;
+      }
+  
+      .nav__logout {
+    margin-top: 19rem;
   }
-  
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 8px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+      
+      #main {
+        transition: margin-left .5s;
+        padding: 16px;
+      }
+      
+      @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+      }
+      .nav__icon {
+    font-size: 1.2rem;
+    margin-right: .5rem;
   }
-  </script>
-
-
-  </body>
+    
   
-  </html>
-
-
+      
+      </style>
+      
+   
+   
+    <div id="fade" onClick="lightbox_close();"></div>
+    
+    
+    <nav class="sidebar">
+    <div id="mySidenav" class="sidenav" style="position: fixed; top: -5px; right: 250px; height:100%;">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+      <hr>
+      <ul>
+       <a href="index4.html">
+        <i class='bx bx-home nav__icon' ></i>
+         
+         Lobby</a>
+      </ul>
+      <hr>
+      <ul>
+        
+        <a href="#" id="bianocular" onclick="kameramove_2() " style="pointer-events: none; color: #818181;" onmouseover="htext2()" onmouseout="stext2()">
+          <i class='bx bx-zoom-in nav__icon'></i>
+          Zoom In Binocular</a>
+      
+      </ul>
+      <hr>
+      <ul>
+       
+      <a href="#" onclick="kameramove_4() " >
+        <i class='bx bx-zoom-out nav__icon' ></i>
+        Zoom Out Binocular</a>
+    
+  </ul>
+  <hr>
+  <ul>
+       
+    <a href="#" id="monitor" onclick="kameramove_1() " style="pointer-events: none; color: #818181;" onmouseover="htext()" onmouseout="stext()">
+      <i class='bx bx-tv nav__icon' ></i>
+      Zoom In Monitor</a>
   
+  </ul>
+  <hr>
+  <ul>
+       
+    <a href="#" onclick="kameramove_3() ">
+      <i class='bx bxs-tv nav__icon' ></i>
+      Zoom Out Monitor</a>
+  
+  </ul>
+  <hr>
+  <ul>
+       
+    <a href="#" id="Glow800video" onclick="switchVideoToFirst() " style="pointer-events: none; color: #818181;" onmouseover="htext3()" onmouseout="stext3()">
+      <i class='bx bxs-video-recording nav__icon' ></i>
+      Glow800</a>
+  
+  </ul>
+  
+  <hr>
+  <ul>
+       
+    <a href="#" id="Fl800video" onclick="switchVideoToSecond() " style="pointer-events: none; color: #818181;" onmouseover="htext4()" onmouseout="stext4()">
+      <i class='bx bxs-video-plus nav__icon' ></i>
+      Fl800</a>
+  
+  </ul>
+  
+  <hr>
+  <ul>
+       
+    <a href="#" onclick="button()" >
+      <i class='bx bx-collapse-horizontal nav__icon'></i>
+      Explore Equipment</a>
+  
+  </ul>
+  
+  
+  <hr>
+  <ul>
+   
+      <a href="#" onclick="button1()">
+        <i class='bx bxs-contact nav__icon' ></i>
+        Auto balancing</a>
+    
+  </ul>
+  
+  
+  <ul>
+   
+    <a href="logout-user.php" id="clearButton" class="nav__logout" >
+      <i class='bx bx-log-out nav__icon'>
+  
+      </i>Logout</a>
+  
+  
+  </ul>
+    </div>
+  </nav>
+  
+    <span onclick="openNav()"  ><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" style="position: fixed; top:1%; right:96%; height:40px; width:auto; max-width:40px;" ></span>
+  
+  
+    
+    <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+    }
+    </script>
+  
+  
+    </body>
+    
+    </html>
+  
+  
+    
