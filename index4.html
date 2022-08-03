@@ -57,14 +57,14 @@
               this.x_cord = 0;
               // this.y_cord = 0;
               
-              document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-              document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-              document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
+              document.addEventListener('touchstart',this.OnDocumentMouseDown.bind(this));
+              document.addEventListener('touchend',this.OnDocumentMouseUp.bind(this));
+              document.addEventListener('touchmove',this.OnDocumentMouseMove.bind(this));
               
             },
             OnDocumentMouseDown : function(event){
               this.ifMouseDown = true;
-              this.x_cord = event.clientX;
+              this.x_cord = event.touches[0].clientX;
               // this.y_cord = event.clientY;
             },
             OnDocumentMouseUp : function(){
@@ -74,7 +74,7 @@
             {
               if(this.ifMouseDown && event_yorn ==true)
               {
-                var temp_x = event.clientX-this.x_cord;
+                var temp_x = event.touches[0].clientX-this.x_cord;
                 // var temp_y = event.clientY-this.y_cord;
                 if(Math.abs(temp_x))
                 {
@@ -84,7 +84,7 @@
                 // {
                 //   this.el.object3D.rotateX(temp_y*this.data.speed/100);
                 // }
-                this.x_cord = event.clientX;
+                this.x_cord = event.touches[0].clientX;
                 // this.y_cord = event.clientY;
               }
             }
@@ -98,7 +98,7 @@
   <a-scene  vr-mode-ui="enabled:false">
     
         <a-entity gltf-model="movement.glb"
-      modify-materials  position="-1.800 -5 -7" scale="5 5 5" rotation="0 -45 0"
+      modify-materials  position="-1.800 0 -7" scale="2 2 2" rotation="0 -45 0"
     id="camera3"
         animation__5="property: rotation; from: 0 -80 0; to:0 280 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false">   
     <a-entity  position="1.095 0.700 1.838" rotation="-54.312 64.355 -76.143" >
