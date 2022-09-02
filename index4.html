@@ -1,129 +1,30 @@
+
 <html>
   <head>
-  <meta name="description" content="Model Viewer (VR / AR) • A-Frame">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   
   <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-  <script src="https://unpkg.com/aframe-orbit-controls@1.2.0/dist/aframe-orbit-controls.min.js"></script> 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v5.0.1/dist/aframe-extras.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
-    
-    
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-237843301-1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'UA-237843301-1');
+</script>
+
 </head>
 
 <body>
-  
-  <script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-237843301-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-237843301-1');
-</script>
-
-  </script>
-<script>
-      AFRAME.registerComponent('camrender',{
-          'schema': {
-             // desired FPS
-             fps: {
-                  type: 'number',
-                  default: 90.0
-             },
-             // Id of the canvas element used for rendering the camera
-             cid: {
-                  type: 'string',
-                  default: 'camRenderer'
-             },
-             // Height of the renderer element
-             height: {
-                  type: 'number',
-                  default: 300
-             },
-             // Width of the renderer element
-             width: {
-                  type: 'number',
-                  default: 400
-             }
-          },
-          'update': function(oldData) {
-              var data = this.data
-              if (oldData.cid !== data.cid) {
-                  // Find canvas element to be used for rendering
-                  var canvasEl = document.getElementById(this.data.cid);
-                  // Create renderer
-                  this.renderer = new THREE.WebGLRenderer({
-                      antialias: true,
-                      canvas: canvasEl
-                  });
-                  // Set properties for renderer DOM element
-                  this.renderer.setPixelRatio( window.devicePixelRatio );
-                  this.renderer.domElement.crossorigin = "anonymous";
-              };
-              if (oldData.width !== data.width || oldData.height !== data.height) {
-                  // Set size of canvas renderer
-                  this.renderer.setSize(data.width, data.height);
-                  this.renderer.domElement.height = data.height;
-                  this.renderer.domElement.width = data.width;
-              };
-              if (oldData.fps !== data.fps) {
-                  // Set how often to call tick
-                  this.tick = AFRAME.utils.throttleTick(this.tick, 1000 / data.fps , this);
-              };
-          },
-          'tick': function(time, timeDelta) {
-              this.renderer.render( this.el.sceneEl.object3D , this.el.object3DMap.camera );
-          }
-      });
-      
-      AFRAME.registerComponent('canvas-updater', {
-          dependencies: ['geometry', 'material'],
-      
-          tick: function () {
-              var el = this.el;
-              var material;
-      
-              material = el.getObject3D('mesh').material;
-              if (!material.map) { return; }
-              material.map.needsUpdate = true;
-          }
-      });
-      </script>
-  <!-- <script>
-    function pause() {
-      document.querySelector("a-entity").setAttribute('animation-mixer', {
-        timeScale: 0
-      });
-  
-    }
-  
-    function play() {
-      document.getElementById("move").setAttribute('animation-mixer', {
-       
-        timeScale : 1
-       
-      });
-      document.getElementById("move1").setAttribute('animation-mixer', {
-       
-       timeScale : 1
-      
-     });
-     document.getElementById("#camera1").emit("movecam_2");
- 
-    }
-  </script> -->
-    <!-- <link rel="stylesheet" href="assets\css\styles.css"> -->
 
       <style>
       body {
@@ -139,190 +40,16 @@
  
 
       
-      <script>
-            function switchVideoToFirst() {
-        console.log("switching to first");
-        
-        document.getElementById("skyVideoTemplate").setAttribute('template', 'src', "#firstVideo");
     
-        document.getElementById("skyVideo1").setAttribute("visible", true);
-    document.getElementById("skyVideo2").setAttribute("visible", true);
-    document.getElementById("skyVideo3").setAttribute("visible", true);
- 
-        
-      }
-      
-      function switchVideoToSecond() {
-        console.log('switching to second');
-        document.getElementById("skyVideoTemplate").setAttribute('template', 'src', '#secondVideo');
-        document.getElementById("skyVideo4").setAttribute("visible", true);
-    document.getElementById("skyVideo5").setAttribute("visible", true);
-    document.getElementById("skyVideo6").setAttribute("visible", true);
-      }
-      </script>
-   <script>
-  AFRAME.registerComponent('move', {
-    init: function() {
-      playBtn = document.getElementById("playBtn")
-        console.log("hi1");
-      // wait until the model is loaded
-      playBtn.addEventListener("click", evt => {
-        const mixer = new THREE.AnimationMixer(this.el.components['gltf-model'].model);
-        const clips = this.el.components['gltf-model'].model.animations[0];
-        let animation = mixer.clipAction(clips).play();
-        animation.setLoop(THREE.LoopOnce);
-        // mixer.setTime(.130);
-        // animation.setTime(.300);
+  
 
-        // "expose" the animation mixer
-        this.mixer = mixer;
-      })
-    },
-    // on each render loop (actually before each render loop)
-    tick: function(t, dt) {
-      if (!this.mixer) return; // if the mixer exists
-      this.mixer.update(dt / 1000) // update it with the delta time
-    }
-  })
-</script>
-<script>
-  AFRAME.registerComponent('move1', {
-    init: function() {
-        playBtn1 = document.getElementById("playBtn1")
-         
-      // wait until the model is loaded
-      playBtn1.addEventListener("click", evt => {
-        const mixer = new THREE.AnimationMixer(this.el.components['gltf-model'].model);
-        const clips = this.el.components['gltf-model'].model.animations[0];
-        let animation = mixer.clipAction(clips).play();
-        animation.setLoop(THREE.LoopOnce);
-        // mixer.setTime(.130);
-        // animation.setTime(.300);
 
-        // "expose" the animation mixer
-        this.mixer = mixer;
-      })
-    },
-    // on each render loop (actually before each render loop)
-    tick: function(t, dt) {
-      if (!this.mixer) return; // if the mixer exists
-      this.mixer.update(dt / 1000) // update it with the delta time
-    }
-  })
-</script>
-  <!-- <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script> -->
-  
-  <!-- <script src="./script.js"></script>
-  
-  <script>
-    AFRAME.registerComponent("weblink", {
-      schema: {
-        url: {
-          default: ""
-        }
-      },
-      init: function() {
-        this.el.addEventListener("click", (e) => {
-          window.location = this.data.url;
-        })
-      }
-    })
-   
-  </script> -->
-  
-  <script>
-    function kameramove_1() {
-    
-      document.querySelector("#cam").emit("movecam_1");
-      document.querySelector("#camera3").emit("movecam_1"); 
-    //   document.getElementById("cam3").setAttribute("visible", false);
-    // document.getElementById("cam5").setAttribute("visible", false);
-    // document.getElementById("camera3").setAttribute("visible", true);  
-    }
-  </script>
-  
-  
-  <script>
-    function kameramove_2() {
-      document.querySelector("#cam").emit("movecam_2");
-      document.querySelector("#camera3").emit("movecam_2");
-    
-    //   document.getElementById("cam3").setAttribute("visible", false);
-    // document.getElementById("cam5").setAttribute("visible", false);
-
-    // document.getElementById("camera3").setAttribute("visible", true);
-    }
-  </script>
-  
-  <script>
-    function kameramove_3() {
-    
-      document.querySelector("#cam").emit("movecam_3");
-    
-    }
-  </script>
-  
-  
-  <script>
-    function kameramove_4() {
-  
-      document.querySelector("#cam").emit("movecam_4");
-    }
-  </script>
-  <!-- <script>
-    AFRAME.registerComponent('muter', {
-  init:function() {
-    var sky = document.querySelectorAll(".sound");
-    // lets store volume levels for later use
-    var volLevels = {}
-    sky.forEach(function(el, index) {
-      el.addEventListener('loaded', e=> {
-        volLevels[index] = el.getAttribute('sound').volume
-      })
-    })
-
-    var muted = false
-    // when clicked - switch the volume
-    this.el.addEventListener('click', function() {
-      sky.forEach(function(playAudio, index) {
-        let volume = muted ? volLevels[index] : 0
-        playAudio.setAttribute('sound', 'volume', volume)
-      });
-      muted = !muted
-  });
- }
-});
-  </script> -->
 
   <script>
     let event_yorn = false
     function button(){
       console.log("hi");
-      document.getElementById('Glow800video').style.pointerEvents = 'none';
-      document.getElementById('Fl800video').style.pointerEvents = 'none';
-      document.getElementById('bianocular').style.pointerEvents = 'none';
-      document.getElementById('monitor').style.pointerEvents = 'none';
-    document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById("cam3").setAttribute("visible", false);
-    document.getElementById("cam5").setAttribute("visible", false);
-
-    document.getElementById("camera3").setAttribute("visible", true);
-    document.getElementById("camera4").setAttribute("visible", false);
-          document.getElementById("camera5").setAttribute("visible", false);
-          document.getElementById("camera6").setAttribute("visible", false);
-    document.querySelector("#cam").emit("movecam_4");
-    document.getElementById('bianocular').style.color = "#818181";
-    document.getElementById('monitor').style.color = "#818181";
-    document.getElementById('bianocularout').style.color = "#818181";
-    document.getElementById('monitorout').style.color = "#818181";
-    document.getElementById('Fl800video').style.color = "#818181";
-
-    document.getElementById('Glow800video').style.color = "#818181";
+    
 
 
   
@@ -340,15 +67,14 @@
             this.x_cord = 0;
             // this.y_cord = 0;
             
-            document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-            document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-            document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-          
+            document.addEventListener('touchstart',this.OnDocumentMouseDown.bind(this));
+            document.addEventListener('touchend',this.OnDocumentMouseUp.bind(this));
+            document.addEventListener('touchmove',this.OnDocumentMouseMove.bind(this));
             
           },
           OnDocumentMouseDown : function(event){
             this.ifMouseDown = true;
-            this.x_cord = event.clientX;
+            this.x_cord = event.touches[0].clientX;
             // this.y_cord = event.clientY;
           },
           OnDocumentMouseUp : function(){
@@ -358,103 +84,17 @@
           {
             if(this.ifMouseDown && event_yorn ==true)
             {
-              var temp_x = event.clientX-this.x_cord;
+              var temp_x = event.touches[0].clientX-this.x_cord;
               // var temp_y = event.clientY-this.y_cord;
               if(Math.abs(temp_x))
               {
-                this.el.object3D.rotateY(temp_x*this.data.speed/500);
+                this.el.object3D.rotateY(temp_x*this.data.speed/100);
               }
               // else
               // {
               //   this.el.object3D.rotateX(temp_y*this.data.speed/100);
               // }
-              this.x_cord = event.clientX;
-              // this.y_cord = event.clientY;
-            }
-          }
-          
-        });
-      
-    
-    </script>
-     
-
-     <script>
-    let event_yorn1 = false
-    function button2(){
-      console.log("hi1");
-      document.getElementById('Glow800video').style.pointerEvents = 'none';
-      document.getElementById('Fl800video').style.pointerEvents = 'none';
-      document.getElementById('bianocular').style.pointerEvents = 'none';
-      document.getElementById('monitor').style.pointerEvents = 'none';
-    document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById("cam3").setAttribute("visible", false);
-    document.getElementById("cam5").setAttribute("visible", false);
-
-    document.getElementById("camera3").setAttribute("visible", false);
-    document.getElementById("camera4").setAttribute("visible", true);
-          document.getElementById("camera5").setAttribute("visible", true);
-          document.getElementById("camera6").setAttribute("visible", true);
-    document.querySelector("#cam").emit("movecam_4");
-    document.getElementById('bianocular').style.color = "#818181";
-    document.getElementById('monitor').style.color = "#818181";
-    document.getElementById('bianocularout').style.color = "#818181";
-    document.getElementById('monitorout').style.color = "#818181";
-    document.getElementById('Fl800video').style.color = "#818181";
-
-    document.getElementById('Glow800video').style.color = "#818181";
-
-    event_yorn2 = false;  
-        document.querySelector("#camera6").emit("movecam_7");
-  
-  
-      if(event_yorn1 == false){
-        event_yorn1 =true;
-      }
-    
-    }
-    AFRAME.registerComponent('head-rotation',{   
-          schema : { speed : {default:1}},
-          init : function (){
-  
-            this.ifMouseDown = true;
-            this.x_cord = 0;
-            // this.y_cord = 0;
-            
-            document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-            document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-            document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-          
-            
-          },
-          OnDocumentMouseDown : function(event){
-            this.ifMouseDown = true;
-            this.x_cord = event.clientX;
-            // this.y_cord = event.clientY;
-          },
-          OnDocumentMouseUp : function(){
-            this.ifMouseDown = false;
-          },
-          OnDocumentMouseMove : function(event)
-          {
-            if(this.ifMouseDown && event_yorn1 ==true)
-            {
-              var temp_x = event.clientX-this.x_cord;
-              // var temp_y = event.clientY-this.y_cord;
-              if(Math.abs(temp_x))
-              {
-                this.el.object3D.rotateY(temp_x*this.data.speed/500);
-              }
-              // else
-              // {
-              //   this.el.object3D.rotateX(temp_y*this.data.speed/100);
-              // }
-              this.x_cord = event.clientX;
+              this.x_cord = event.touches[0].clientX;
               // this.y_cord = event.clientY;
             }
           }
@@ -464,424 +104,13 @@
     
     </script>
 
-<script>
-    let event_yorn2 = false
-    function button4(){
-      console.log("hi2");
-      document.getElementById('Glow800video').style.pointerEvents = 'none';
-      document.getElementById('Fl800video').style.pointerEvents = 'none';
-      document.getElementById('bianocular').style.pointerEvents = 'none';
-      document.getElementById('monitor').style.pointerEvents = 'none';
-    document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById("cam3").setAttribute("visible", false);
-    document.getElementById("cam5").setAttribute("visible", false);
 
-    document.getElementById("camera3").setAttribute("visible", false);
-    document.getElementById("camera4").setAttribute("visible", true);
-          document.getElementById("camera5").setAttribute("visible", true);
-          document.getElementById("camera6").setAttribute("visible", true);
-    document.querySelector("#cam").emit("movecam_4");
-    document.getElementById('bianocular').style.color = "#818181";
-    document.getElementById('monitor').style.color = "#818181";
-    document.getElementById('bianocularout').style.color = "#818181";
-    document.getElementById('monitorout').style.color = "#818181";
-    document.getElementById('Fl800video').style.color = "#818181";
-
-    document.getElementById('Glow800video').style.color = "#818181";
-
-    event_yorn1 = false;  
-        document.querySelector("#camera5").emit("movecam_6");
+<a-scene  vr-mode-ui="enabled:false">
   
-  
-      if(event_yorn2 == false){
-        event_yorn2 =true;
-      }
-    
-    }
-    
-    AFRAME.registerComponent('monitor-rotation',{   
-          schema : { speed : {default:1}},
-          init : function (){
-  
-            this.ifMouseDown = true;
-            this.x_cord = 0;
-            // this.y_cord = 0;
-            
-            document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-            document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-            document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-          
-            
-          },
-          OnDocumentMouseDown : function(event){
-            this.ifMouseDown = true;
-            this.x_cord = event.clientX;
-            // this.y_cord = event.clientY;
-          },
-          OnDocumentMouseUp : function(){
-            this.ifMouseDown = false;
-          },
-          OnDocumentMouseMove : function(event)
-          {
-            if(this.ifMouseDown  && event_yorn2 == true)
-            {
-              var temp_x = event.clientX-this.x_cord;
-                // var temp_x = THREE.Math.clamp(60,170);
-                // var temp_x = Math.PI * 1;
-             
-              // var temp_y = event.clientY-this.y_cord;
-
-              if(Math.abs(temp_x ))
-              {
-                // this.el.object3D.rotation.y = 0;
-                // this.el.object3D.rotation.y = Math.PI * 0.5;
-                // var curPan = 0;
-                // this.el.object3D.rotation.y = THREE.Math.clamp(60,170);
-                
-    //             this.el.object3D.rotation.y += 0.01;
-    // if(this.el.object3D.rotation.y >= temp_x)
-    // {
-    //   this.el.object3D.rotation.y = 0.01;
-    // }
-                // this.el.object3D.rotation.y  =  THREE.Math.degToRad(60);
-                // this.el.object3D.rotation.y  =  THREE.Math.radToDeg(190);
-
-                // temp_x = this.x_cord;
-            // Assigns new rotation in radians
-            // rollObj.rotation.y = THREE.Math.degToRad(roll);
-            // this.el.object3D.rotation.y = THREE.Math.degToRad(temp_x);
-            // temp_x = this.x_cord;
-            // curPan = clampedX;
-                  //  if (this.el.object3D.rotation.y > 60) {
-                  //  this.el.object3D.rotation.y += 60;
-                  //    }
-                  // if (this.el.object3D.rotation.y < -170) {
-                  //  this.el.object3D.rotation.y -= -170;
-                  //   }
-                  // this.el.object3D.rotateY(temp_x*Math.PI * 0.5);
-                this.el.object3D.rotateY(temp_x*this.data.speed/500);
-
-                // this.el.object3D.rotation.y.(180 * Math.PI /100);
-
-                // this.el.object3D.rotation.y = clamp(60,-170)
-                // this.el.object3D.rotateY(temp_x *this.data.speed/100);
-                // this.el.object3D.rotation.y += 1;                      // Rotates   1 radian  per frame
-                // this.el.object3D.rotation.y += Math.PI / 1000;  
-                // this.el.object3D.rotation.y += 180 * Math.PI / 1000; 
-                // this.el.object3D.rotation.maxAzimuthAngle  = 200 * Math.PI / 180; 
-                // this.el.object3D.rotation.maxAzimuthAngle  = 120 * Math.PI / 180
-           
-                // this.el.object3D.rotation.y = THREE.Math.degToRad(temp_x);
-                // this.el.object3D.rotation.y = THREE.Math.radToDeg(45);
-// 
-               // this.el.object3D.rotation.y = THREE.Math.degToRad(temp_x);
-                // rotateX(THREE.Math.degToRad(clampedX - curPan));
-                // this.el.object3D.rotation.y.divideScalar(2);
-
-
-                // this.el.object3D.rotation.y = THREE.Math.degFromRad(0);  
-              // 
-                // this.el.object3D.rotation.y = THREE.Math.degToRad(0);
-                // this.el.object3D.rotation.y = THREE.Math.degToRad(45);
-
-                // this.el.object3D.['y'] = yTilt > minTilt ? yTilt : minTilt;
-   // enforce maximum (straight up) 
-  //  if (this.el.object3D.['y'] > 0) {
-  //   this.el.object3D.['y'] = 90;
-  //  }
-
-                // var currentRotationY = radToDeg(this.yawObject.rotation.y  * 270);
-                // this.el.object3D.rotation.y = -270;
-
-                // this.el.object3D.rotation.divideScalar(2);
-              }
-              // else
-              // {
-              //   this.el.object3D.rotateX(temp_y*this.data.speed/100);
-              // }
-              this.x_cord = event.clientX;
-              // this.y_cord = event.clientY;
-            }
-          }
-        
-        });
-      
-    
-    </script>
-
-    <script>
-      function button1() {
-        event_yorn =false;  
-      
-        document.getElementById('Glow800video').style.pointerEvents = 'auto';
-      document.getElementById('Fl800video').style.pointerEvents = 'auto';
-      document.getElementById('bianocular').style.pointerEvents = 'auto';
-      document.getElementById('monitor').style.pointerEvents = 'auto';
-      document.getElementById('bianocularout').style.pointerEvents = 'auto';
-      document.getElementById('monitorout').style.pointerEvents = 'auto';
-        document.querySelector("#camera3").emit("movecam_5");
-        document.getElementById("cam3").setAttribute("visible", false);
-    document.getElementById("cam5").setAttribute("visible", false);
-
-    document.getElementById("camera3").setAttribute("visible", true);
-    document.getElementById("camera4").setAttribute("visible", false);
-          document.getElementById("camera5").setAttribute("visible", false);
-          document.getElementById("camera6").setAttribute("visible", false);
-        document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById('bianocular').style.color = "#f1f1f1";
-    document.getElementById('monitor').style.color = "#f1f1f1";
-    document.getElementById('bianocularout').style.color = "#f1f1f1";
-    document.getElementById('monitorout').style.color = "#f1f1f1";
-
-    document.getElementById('Fl800video').style.color = "#f1f1f1";
-
-    document.getElementById('Glow800video').style.color = "#f1f1f1";
-
-      }
-    </script>
-     <script>
-      function play() {
-          console.log("lkl");
-          document.getElementById('Glow800video').style.pointerEvents = 'none';
-      document.getElementById('Fl800video').style.pointerEvents = 'none';
-      document.getElementById('bianocular').style.pointerEvents = 'none';
-      document.getElementById('monitor').style.pointerEvents = 'none';
-      document.getElementById('bianocularout').style.pointerEvents = 'none';
-      document.getElementById('monitorout').style.pointerEvents = 'none';
-        document.getElementById("camera3").setAttribute("visible", false);
-        document.getElementById("camera4").setAttribute("visible", false);
-          document.getElementById("camera5").setAttribute("visible", false);
-          document.getElementById("camera6").setAttribute("visible", false);
-        document.getElementById("cam3").setAttribute("visible", true);
-        document.getElementById("cam5").setAttribute("visible", false);
-        document.querySelector("#cam").emit("movecam_4");
-        document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById('bianocular').style.color = "#818181";
-    document.getElementById('monitor').style.color = "#818181";
-    document.getElementById('bianocularout').style.color = "#818181";
-    document.getElementById('monitorout').style.color = "#818181";
-    document.getElementById('Fl800video').style.color = "#818181";
-
-    document.getElementById('Glow800video').style.color = "#818181";
-
-      }
-      function play1() {
-        document.getElementById('Glow800video').style.pointerEvents = 'none';
-      document.getElementById('Fl800video').style.pointerEvents = 'none';
-      document.getElementById('bianocular').style.pointerEvents = 'none';
-      document.getElementById('monitor').style.pointerEvents = 'none';
-      document.getElementById('bianocularout').style.pointerEvents = 'none';
-      document.getElementById('monitorout').style.pointerEvents = 'none';
-          document.getElementById("camera3").setAttribute("visible", false);
-          document.getElementById("camera4").setAttribute("visible", false);
-          document.getElementById("camera5").setAttribute("visible", false);
-          document.getElementById("camera6").setAttribute("visible", false);
-          document.getElementById("cam3").setAttribute("visible", false);
-          document.getElementById("cam5").setAttribute("visible", true);
-          document.querySelector("#cam").emit("movecam_4");
-          document.getElementById("skyVideo1").setAttribute("visible", false);
-    document.getElementById("skyVideo2").setAttribute("visible", false);
-    document.getElementById("skyVideo3").setAttribute("visible", false);
-    document.getElementById("skyVideo4").setAttribute("visible", false);
-    document.getElementById("skyVideo5").setAttribute("visible", false);
-    document.getElementById("skyVideo6").setAttribute("visible", false);
-    document.getElementById('bianocular').style.color = "#818181";
-    document.getElementById('monitor').style.color = "#818181";
-    document.getElementById('bianocularout').style.color = "#818181";
-    document.getElementById('monitorout').style.color = "#818181";
-    document.getElementById('Fl800video').style.color = "#818181";
-
-    document.getElementById('Glow800video').style.color = "#818181";
-  
-        }
-    </script>
-    <script>
-        function htext() {
-        var x = document.getElementById("monitor");
-        // var y = document.getElementById("div2");
-        x.style.color = '#818181';
-        // y.style.color = 'red';
-    }
-    function stext() {
-        var x = document.getElementById("monitor");
-        // var y = document.getElementById("div2");
-        x.style.color = '#f1f1f1';
-        // y.style.color = 'black';
-    }
-    function htext2() {
-        var x = document.getElementById("bianocular");
-        // var y = document.getElementById("div2");
-        x.style.color = '#818181';
-        // y.style.color = 'red';
-    }
-    function stext2() {
-        var x = document.getElementById("bianocular");
-        // var y = document.getElementById("div2");
-        x.style.color = '#f1f1f1';
-        // y.style.color = 'black';
-    }
-    function htext3() {
-        var x = document.getElementById("Glow800video");
-        // var y = document.getElementById("div2");
-        x.style.color = '#818181';
-        // y.style.color = 'red';
-    }
-    function stext3() {
-        var x = document.getElementById("Glow800video");
-        // var y = document.getElementById("div2");
-        x.style.color = '#f1f1f1';
-        // y.style.color = 'black';
-    }
-    function htext4() {
-        var x = document.getElementById("Fl800video");
-        // var y = document.getElementById("div2");
-        x.style.color = '#818181';
-        // y.style.color = 'red';
-    }
-    function stext4() {
-        var x = document.getElementById("Fl800video");
-        // var y = document.getElementById("div2");
-        x.style.color = '#f1f1f1';
-        // y.style.color = 'black';
-    }
-      </script>
-    <!-- <script>
-      AFRAME.registerComponent('muter', {
-      init:function() {
-        
-        var audio = document.querySelectorAll(".sound");
-        var volLevels = {}
-        
-        audio.forEach(function(el, index) {
-          el.addEventListener('loaded', e=> {
-               volLevels[index] = el.getAttribute('sound').volume
-          })
-        })
-              
-      
-        var muted = false
-          this.el.addEventListener('click', function() {
-             audio.forEach(function(playAudio, index) {
-               let volume = muted ? volLevels[index] : 0
-               playAudio.setAttribute('sound', 'volume', volume)
-             });
-             muted = !muted
-          });
-       }
-      });
-      
-      </script> -->
-    
-    <!-- <button id="sa" onclick="button()" style="z-index: 10000000; position: fixed; margin-top: 0px; cursor: pointer; margin-right:250px;">
-        play2
-        </button> -->
-        <div id="main">
-          
-        <button class="animate__animated animate__pulse animate__infinite	infinite btn btn-primary btn-responsive" id="playBtn" onclick="play()" >
-      <span class="d-none d-md-inline">Maneuver</span>
-
-    
-    </button>
-    <button class="animate__animated animate__pulse animate__infinite	infinite btn btn-primary btn-responsive" id="playBtn1" onclick="play1()" >
-      <span class="d-none d-md-inline">Binocular</span>
-
-    
-      </button>
-
-</div>
-       
-  <a-scene   vr-mode-ui="enabled:false">
-    <a-entity id="skyVideoTemplate" template="src: #"></a-entity>
-  <a-assets>
-    <!-- <img id="duck" src="buttons\lock view.png"  foo="src:#duck"> -->
-    <!-- <img id="lobster" src="buttons\free roam.png" foo="src:#lobster">
-    <img id="duck1" src="buttons\zoom in lens.png"  foo="src:#duck1">
-      <img id="duck2" src="buttons\zoom in tv.png"  foo="src:#duck2" >
-      <img id="duck3" src="buttons\fl800.png"  foo="src:#duck3" onclick="switchVideoToFirst(this)">
-      <img id="duck4" src="buttons\glow800.png"  foo="src:#duck4" onclick="switchVideoToSecond(this)">
-      <img id="duck5" src="buttons\zoom out lens.png"  foo="src:#duck5">
-      <img id="duck6" src="buttons\zoom out tv.png"  foo="src:#duck6"> -->
-      <!-- <img id="homeThumbnail" src="information-about-us-icon-16.png"> -->
-      <img id="city" src="LEICA2.jpg">
-      <!-- <img id="city1" src="studio_small_07_4k.jpg"> -->
-
-  
-  </a-assets>
-  <!-- <a-entity light="type: ambient; angle:10; intensity: 1.690;  penumbra:0.500; castShadow: true; shadowCameraVisible: true" rotation="-46.441 -176.032 102.097" position="-2.247 0.118 -11.803"  ></a-entity> -->
-
-  <!-- <a-image src="#duck"  width="3" height="1.5" position="12.085 -2.766 -5.483" foo="src:#duck"></a-image> -->
-  
-  <!-- <a-image link="href: index4.html; title: Lobby; image: #homeThumbnail" text="lobby" color="red" position="-10.210 3.628 -2.681" rotation="0 180 0" scale="1 1 1"></a-image> -->
-  
-    <!-- <a-image src="#duck5"  width="3" height="1.5" position="-1.997 2.027 -4.522" scale=" .350 .350 .350" foo="src:#duck5" onclick="kameramove_3() "  material="opacity: 1.0; transparent: true" color="white"></a-image>
-  <a-image src="#duck6"  width="3" height="1.5" position="-11.192 6.907 -11.201" scale=" .350 .350 .350" foo="src:#duck6" onclick="kameramove_4() "  material="opacity: 1.0; transparent: true" color="white"></a-image>
-  <a-image src="#duck1"  id="name" width="2.5" height="1" position="-0.862 -2.731 -1.844" scale=" 1 1.100 1"  onclick="kameramove_2() " material="opacity: 1.0; transparent: true"   color="white" ></a-image>
-   
-  <a-image src="#duck2"  width="2.5" height="1" position="-6.064 -2.731 -1.844" scale=" 1 1.100 1" foo="src:#duck2" onclick="kameramove_1() " material="opacity: 1.0; transparent: true" color="white" ></a-image>
-  <a-image src="#lobster" id="ui"   width="2.5" height="1"  position="4.223 -2.731 -1.844" scale=" 1 1.100 1" foo="src:#lobster" weblink="url:index4.html"></a-image>
-  
-  <a-image src="#duck3"  width="2.5" height="1" position="6.004 0.476  -1.844"  onclick="switchVideoToSecond() " scale=" 0.800 1.640 0.800" foo="src:#duck3" ></a-image>
-  <a-image src="#duck4"  width="2.5" height="1" position="6.004  4.023 -1.844"  onclick="switchVideoToFirst() " scale=" 0.800 1.640 0.800" foo="src:#duck4" ></a-image> -->
-          <a-sky id="image-360" rotation="0 270 0" radius="100" src="#city"></a-sky>
-          <!-- <a-sky id="image-360" visible="true" rotation="0 280 0" radius="50" src="#city1"></a-sky> -->
-          <!-- <a-assets>
-      <canvas id="cam2"></canvas>
-  </a-assets> -->
-  
-  <a-assets timeout="30000">
-    <a-asset-item dynamic-body id="spinosaurus" src="Surgery_Table&Human 2.glb"  response-type="arraybuffer"  ></a-asset-item>
-    <!-- <a-asset-item dynamic-body id="spinosauru" src="AR800(2).glb"  response-type="arraybuffer"  ></a-asset-item> -->
-    <!-- <a-asset-item dynamic-body id="spinosauru1" src="Leica_test_15\Leica_test_15 (part_3).glb"  response-type="arraybuffer"  ></a-asset-item>
-    <a-asset-item dynamic-body id="spinosauru2" src="Leica_test_15\Leica_test_15 (part_4).glb"  response-type="arraybuffer"  ></a-asset-item> -->
-    <!-- <a-asset-item dynamic-body id="spinosauru3" src="wall.glb"  response-type="arraybuffer"  ></a-asset-item> -->
-    </a-assets>
-    <a-entity gltf-model="Base_Movement.glb" visible="false"
-    move  position="-1.800 -5 -7"  scale="4 4 4" rotation="0 -45 0"
-  id="cam3"
-    >   
-  <a-entity  position="2.070 0.804 1.810" rotation="-83.773 25.3845 -16.730" >
-    
-    <a-camera camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false" camera="fov:5"  >
-    </a-camera></a-entity>
-      <a-entity id="cam1" light="type: spot; angle: 5; intensity: 50" position="1.307 0.983 0.247" rotation="270 0 0" color="yellow" > </a-entity>
-      <a-entity geometry="primitive:plane; "
-      material="src:#cam2; opacity: 1" canvas-updater
-      position="-0.485 1.444 -0.372" rotation="0 90.028 0" scale="0.620 0.400 0.200" id="cam4"  ></a-entity>
-      
-      </a-entity>
-      <a-entity gltf-model="Head_Movement.glb"
-    move1 position="-1.800 -5 -7" visible="false" scale="4 4 4" rotation="0 -120 0"
-  id="cam5"
->   
-  <a-entity  position="1.095 0.683 1.838" rotation="-54.312 64.355 -76.143" >
-    
-    <a-camera camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false" camera="fov:5"  >
-    </a-camera></a-entity>
-      <a-entity id="cam1" light="type: spot; angle: 5; intensity: 50" position="1.307 0.983 0.247" rotation="270 0 0" color="yellow" > </a-entity>
-      <a-entity geometry="primitive:plane; "
-      material="src:#cam2; opacity: 1" canvas-updater
-      position="-0.485 1.444 -0.372" rotation="0 90.028 0" scale="0.620 0.400 0.200" id="cam4"  ></a-entity>
-      
-      </a-entity>
-      <a-entity gltf-model="Base_Movement.glb" visible="false"
-      modify-materials position="-1.800 -5 -7" scale="4 4 4" rotation="0 -90 0"
+      <a-entity gltf-model="movement.glb"
+    modify-materials  position="-1.800 0 -7" scale="2 2 2" rotation="0 -45 0"
   id="camera3"
-      animation__5="property: rotation; to : 0 280 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false">   
+      animation__5="property: rotation; from: 0 -80 0; to:0 280 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false">   
   <a-entity  position="1.095 0.700 1.838" rotation="-54.312 64.355 -76.143" >
     
     <a-camera camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false" camera="fov:5" >
@@ -889,58 +118,11 @@
       <a-entity id="cam1" light="type: spot; angle: 5; intensity: 50" position="1.307 0.983 0.247" rotation="270 0 0" color="yellow" > </a-entity>
       <a-entity geometry="primitive:plane; "
       material="src:#cam2; opacity: 1" canvas-updater
-      position="-0.485 1.444 -0.372" rotation="0 90.028 0" scale="0.620 0.400 0.200" id="cam4"  ></a-entity>
+      position="0.202 1.444 -0.567" rotation="0 81.441 0" scale="0.620 0.400 0.200" id="cam4"  ></a-entity>
       
       </a-entity>
 
-
-      <a-entity gltf-model="Body.glb" visible="true" 
-    position="-1.800 -5 -7"  scale="4 4 4" rotation="0 -90 0"
-  id="camera4"
-    >   
-</a-entity>
-
-<!-- animation__6="property: rotation; to : 0 -84.120 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_6; autoplay: false" -->
-  <a-entity position="-1.593 -0.673 -3.148" rotation="0 -84.120 0" scale="4 4 4" head-rotation>
-  <a-entity  dynamic-body position="-0.057 0.057 0.151"  
-  gltf-model="Head.glb" scale="1 1 1" id="camera5" visible="true"
-  
-  >
- 
-  <a-camera position="0.384 0.143 0.051" rotation="-78.951 -14.531 18.994" camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false" camera="fov:5" >
-    </a-camera>
-      <a-entity id="cam1" light="type: spot; angle: 5; intensity: 50" position="0.405 -0.119 -0.068" rotation="270 0 0" color="yellow" > </a-entity>
-    
-
-     
-</a-entity>
-</a-entity>
-
-<!-- animation__7="property: rotation; to :  0 -71.908 0; dur: 1500; easing: easeInOutQuad; startEvents: movecam_7; autoplay: false" -->
-<a-entity position="-1.224 -0.545 -9.216" rotation="0 -71.908 0" scale="4 4 4" monitor-rotation> 
-  <a-entity  static-body position="0.053 0.236 -0.361 " 
-  gltf-model="Monitor.glb" scale="1 1 1" id="camera6" visible="true"
-  
-  >
-  <a-entity geometry="primitive:plane; "
-      material="src:#cam2; opacity: 1" canvas-updater
-      position="0.109 0.066 -0.095" rotation="0 90.028 0" scale="0.636 0.400 0.200" id="cam4"  ></a-entity>
-
-
-</a-entity>
-</a-entity>
-
-
-<a-assets>
-    <canvas id="cam2"></canvas>
-</a-assets>
-<!-- <a-entity light="type: ambient; intensity:1.2;  color: #ffffff"></a-entity> -->
-
-<a-entity camera position="0 0 8" id="camentity" rotation="0 0 0"
-animation__4="property: position; to:  0 0 8; dur: 800; easing: easeInOutQuad; startEvents: movecam_3; autoplay: false"
-animation__3="property: position; to: 0 0 8; dur: 800; easing: easeInOutQuad; startEvents: movecam_4; autoplay: false"
-animation__2="property: position; to: -1.2 -1 .875;  dur: 800; easing: easeInOutQuad; startEvents: movecam_2; autoplay: false"
-animation__1_1="property: position; to: .340 -1 -6; dur:800; easing: easeInOutQuad; startEvents: movecam_1; autoplay: false">
+<a-entity camera position="0 0 0" id="camentity" rotation="0 0 0">
 
 <a-camera id="cam" look-controls="enabled:false	" wasd-controls-enabled="false" >
 </a-camera>
@@ -953,105 +135,13 @@ animation__1_1="property: position; to: .340 -1 -6; dur:800; easing: easeInOutQu
   
     
   
-    <!-- <img id="skyTexture" src="buttons\lock view.png">-->
-    <!-- <img id="skyTexture1" src="buttons\free roam.png">-->
-  <!-- </a-assets> -->
-  <!-- <a-image src="#skyTexture" width="3" height="1.5" position="12.085 -2.766 -5.483"></a-image> -->
-  <!-- <a-image link="href: index4.html;" src="#homeThumbnail" width="1.5" height="1.5" position="-10.210 3.628 -2.681"></a-image> -->
-  <!-- <a-entity  dynamic-body position="-3.399 -10.885 -24.094" rotation="0 360 -1.000" scale="10 10 10"
-      gltf-model="#spinosauru1" scale="1 1 1" id="camera1"
-      animation="property: position; from:-3.399 -10.885 -24.0944; to:-2.399 -10.885 -24.094;  dir: alternate; easing: linear; loop: false;"
-      animation__5="property: rotation; to: 0 270 0;  dur: 150; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false"
-      >
-    <a-entity gltf-model="Leica_test_15\Leica_test_15 (part_1).glb" id="move" position="-0.061 0.000 0.001" rotation="0 0 0" scale="1 1 1" animation-mixer=" timeScale: 0; crossFadeDuration: 1; begin:click; loop: once">
     
-      
-    </a-entity> -->
-    <!-- <a-entity  dynamic-body position="-3.703 -6.361 -7.431" rotation="0 360 -1.000" scale="5 5 5"
-      gltf-model="Leica_test_15\Leica_CPU.glb" scale="1 1 1" id="cam2"
-      animation="property: position; from:-3.703 -6.361 -7.431; to: -1.703 -6.361 -7.431; dur: 5800;  dir: alternate; easing: linear; loop: false;"
-      animation__7="property: rotation; to: 0 270 0;  dur: 150; easing: easeInOutQuad; startEvents: movecam_7; autoplay: false"
-      >
-    <a-entity gltf-model="Leica_test_15\Leica_JCB.glb" id="move" position="-0.061 0.000 0.001" rotation="0 0 0" scale="1 1 1" animation-mixer=" timeScale: 0;  begin:click; loop: once">
-    </a-entity>
-    <a-entity gltf-model="Leica_test_15\Leica_rotation_display.glb" id="move1" position="-0.005 0.001 0.001" rotation="0 0 0" scale="1 1 1" animation-mixer=" timeScale: 0;  begin:click; loop: once"> 
-    </a-entity>
-    <a-entity gltf-model="Leica_test_15\Leica_Cmdoel.glb" id="move2" position="-0.005 0.001 0.001" rotation="0 0 0" scale="1 1 1" animation-mixer=" timeScale: 0;   begin:click; loop: once">  
-    </a-entity>
-    <a-entity gltf-model="Leica_test_15\AR800(head).glb" modify-materials id="move3" position="-0.005 0.001 0.001" rotation="0 0 0" scale="1 1 1" animation-mixer=" timeScale: 0;   begin:click; loop: once">  
-    </a-entity>
-    <a-entity gltf-model="Leica_test_15\Leica_Curve_handle.glb" id="move4" position="0.008 0.001 0.001" rotation="0 0 0" scale="1 1 1" animation-mixer=" timeScale: 0;   begin:click; loop: once">  
-    </a-entity>
-    
-    </a-entity>
-    <a-entity   dynamic-body position="0.020 1.133 -0.105" rotation="0 360 -1"
-              gltf-model="#spinosauru2" scale="1 1 1"
-              >  -->
-              <!-- <a-entity  position="0.763 0.944 -0.788"  rotation="-68.436 -83.597 163.856">
-    
-    <a-camera camrender="cid: cam2"  active="true" look-controls="enabled:false	" wasd-controls-enabled="false"  >
-    </a-camera></a-entity>
-      <a-entity id="cam5" light="type: spot; angle: 5; intensity: 50" position="0.763 0.944 -0.788" rotation="270 0 0" color="yellow" > </a-entity>
-      <a-entity geometry="primitive:plane; "
-      material="src:#cam2; opacity: 1" canvas-updater
-      position="21.048 144.604 -56.878" id="cam" rotation="0 81.439 0.071" scale="60 40 0" ></a-entity></a-entity> -->
-    <!-- <a-entity gltf-model="Leica_test_15 (part_2).glb" id="move1" position="-2.129 -2.000 -34.166" rotation="0 0 0" scale="5 5 5" animation-mixer=" timeScale: 0; crossFadeDuration: 1; begin:click; loop: once"> -->
-    <!-- </a-entity>
-  </a-entity> -->
-  <!-- <a-video src="glow800(AR).mp4" position="-19.574 8.368 -16.630" scale="5.130 3.040 3"></a-video> -->
-    <a-entity  dynamic-body position="-5.308 -7.118 -2.000" rotation="0 270 -1.000"
-              gltf-model="#spinosaurus" scale="3 3 3"
-              ></a-entity>
-              <!-- <a-entity  dynamic-body position="-2.278 -3.644 -8.291" rotation="0 -175 0"
-              gltf-model="#spinosauru1" scale="2.5 2 2.5"
-              ></a-entity> -->
-             <!--  <a-entity   dynamic-body position="-16.454 0.880 -5.398" rotation="0 -85 -1"
-              gltf-model="#spinosauru2" scale="1 1 1"
-              ></a-entity>
-              <a-entity   dynamic-body position="16.454 0.880 -5.398" rotation="0 -85 -1"
-              gltf-model="#spinosauru3" scale="1 1 1"
-              ></a-entity> -->
-    <!-- <a-entity  dynamic-body position="-1.965 -6.013 -6.690" rotation="0 -80.260 0"              
-    gltf-model="#spinosauru" scale="0.05 0.05 0.05" modify-materials
-    material="side:back"
-    id="cam1"
-      animation__5="property: rotation; to: 0 270 0;  dur: 150; easing: easeInOutQuad; startEvents: movecam_5; autoplay: false"
-      animation__2="property: rotation; to:0 270 0;  dur: 150; easing: easeInOutQuad; startEvents: movecam_2; autoplay: false"
-      animation__1_1="property: rotation; to:0 270 0;  dur: 150; easing: easeInOutQuad; startEvents: movecam_1; autoplay: false"></a-entity>-->
-  <a-entity light="type: point; intensity: .700; " position="13.445 0.374 0.747"></a-entity> 
-   <a-entity light="type: point; intensity: .850;" position="-0.409 -1.229 4.786" rotation="-43.082 180 180" > </a-entity>
-   <a-entity light="type: point;  intensity: .850;" position="-0.855 0.495 -13.072" rotation="-31.247 180 180" > </a-entity>
+  <a-entity light="type: point; intensity: 1; " position="13.445 0.374 0.747"></a-entity> 
+   <a-entity light="type: point; intensity: 1;" position="-0.409 -1.229 4.786" rotation="-43.082 180 180" > </a-entity>
+   <a-entity light="type: point;  intensity: 1;" position="-0.855 0.495 -13.072" rotation="-31.247 180 180" > </a-entity>
 
    <a-entity light="type: ambient; intensity:.2;  color: #ffffff"></a-entity>
   
-  <!-- <a-entity link="href: index4.html; image: #lobster" position="12.246 -2.634 -5.417" scale="0.2 0.2 0.2" color="blue"></a-entity> -->
-  
-  
-  <!-- <a-entity camera position="0 0 6" id="camentity" rotation="0 0 0"
-  animation__4="property: position; to:  0 0 6; dur: 800; easing: easeInOutQuad; startEvents: movecam_3; autoplay: false"
-  animation__3="property: position; to: 0 0 6; dur: 800; easing: easeInOutQuad; startEvents: movecam_4; autoplay: false"
-  animation__2="property: position; to: -1.965 0.880 -4.12;  dur: 800; easing: easeInOutQuad; startEvents: movecam_2; autoplay: false"
-  animation__1_1="property: position; to: -8.901 -1.100 -6.623; dur:800; easing: easeInOutQuad; startEvents: movecam_1; autoplay: false">
-  
-  <a-camera id="cam" look-controls="enabled:false	" wasd-controls-enabled="false" >
-  </a-camera>
-  
-  
-  
-  
-  
-  </a-entity> -->
-  <!-- <a-entity id="ui" visible="false"> -->
-    <!-- <a-sphere material="side:back" radius="2"></a-sphere> -->
-    <!-- <a-cylinder material="side:back" position="1 0.75 -3" radius="0.5" height="1.5" color="red">  -->
-      <!-- <a-box position="0.5 0.5 0.3" scale="0.3 0.3 0.3" rotation="0 0 0" color="red" foo="src:#duck"></a-box> -->
-    <!-- <a-text position="1 -0.1 -0.5" color="green" value="back"></a-text> -->
-    <!-- <a-box scale="0.1 0.1 0.1" position="1 -0.2 -0.5" hide-ui color="green"></a-box> -->
-    
-  
-  <!-- </a-entity> -->
-
-  <!-- <a-box  kinematic-body color="#203120" position="-2.061 0 -8.372" rotation="0 0 90" scale="4 0.5 1"></a-box> -->
         
   </a-scene>
   
@@ -1101,164 +191,22 @@ animation__1_1="property: position; to: .340 -1 -6; dur:800; easing: easeInOutQu
       transition: margin-left .5s;
       padding: 16px;
     }
-    .opennav{
-      position: fixed;
-      top:2%;
-      right:96%;
-      height:50px; 
-      width:auto; 
-      max-width:50px;
+    
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
     }
-    #playBtn{
-      z-index: 10000000; 
-      position: fixed; 
-      top: 1.5%; 
-      right: 89%;
-      background-color: #213675;
-      border-radius: 30%;
-      height:5%;
-      width:5%;
-      border: none;
-    }
-    #playBtn1{
-      z-index: 10000000; 
-      position: fixed; 
-      top: 1.5%; 
-      right: 82%;
-      background-color: #213675;
-      border-radius: 30%;
-      height:5%;
-      width:5%;
-      border: none;
-    }
-    .dropdown-btn {
-      padding: 6px 8px 6px 59px;
-text-decoration: none;
-
-color: #f1f1f1;
-display: block;
-border: none;
-background: none;
-width: 100%;
-text-align: left;
-cursor: pointer;
-outline: none;
-}
-.dropdown-btn:hover {
-  color: #818181;
-}
-    .dropdown-container {
-  display: none;
-  background-color: #081d52;
-  padding-left: 8px;
-}
-
-/* Optional: Style the caret down icon */
-
-
-  @media screen and (max-width: 760px) {
-      .sidenav {
-        height: 100%;
-      width: 0;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: #081d52;
-      overflow-x: hidden;
-      transition: 0.5s;
-      padding-top: 60px;
-
-      }
-      .sidenav a {
-        font-size: 18px;
-      }
- 
     .nav__icon {
   font-size: 1.2rem;
   margin-right: .5rem;
 }
-ul{
-  padding-left : 1rem;
-}
-.nav__logout {
-  margin-top: 30rem;
-}
-.opennav{
-      position: fixed;
-      top:1%;
-      right:88%;
-      height:40px; 
-      width:auto; 
-      max-width:40px;
-    }
-    #playBtn{
-      z-index: 10000000; 
-      position: fixed; 
-      top: 0.5%; 
-      right: 81%;
-      background-color: #213675;
-      border-radius: 30%;
-      height:5%;
-      width:5%;
-      border: none;
-    }
-    #playBtn1{
-      z-index: 10000000; 
-      position: fixed; 
-      top: 0.5%; 
-      right: 73%;
-      background-color: #213675;
-      border-radius: 30%;
-      height:5%;
-      width:5%;
-      border: none;
-    }
-    .dropdown-container {
-  display: none;
-  background-color: #081d52;
-  padding-left: 1px;
-}
-.dropdown-btn {
-      padding: 6px 8px 0px 10px;
-text-decoration: none;
-
-color: #f1f1f1;
-display: block;
-border: none;
-background: none;
-width: 100%;
-text-align: left;
-cursor: pointer;
-outline: none;
-}
-}
+  
 
     
     </style>
     
  
-  <!-- <input type="image" src="icons\07-lobby-circle (1).png" onclick= "location.href='index4.html';" class="animate__animated animate__pulse animate__infinite infinite" width="70px" height="70px" style="position: fixed; top: 400px; right: 1739px;" class="button button6"></button> -->
-  <!-- <button src="buttons\zoom out lens.png" width="300px" height="100px" style="position: fixed; bottom: 50px; right: 939px;" id="btn1" onclick="kameramove_4() " class="button button5" >Zoom Out Binocular</button> -->
-  <!-- <button src="buttons\zoom out tv.png" width="300px" height="100px" style="position: fixed; bottom: 50px; right: 1450px;" id="btn8" onclick="kameramove_3() " class="button button4" style='display:none;' >Zoom Out Monitor</button> -->
-  <!-- <button  src="buttons\lock view.png"  width="300px" height="100px" style="position: fixed; bottom: 50px; right: 450px;" id="btn7" onclick="button1()" class="button button3" >Lock View</button> -->
-<!--    -->
-  <!-- <div id="imgDiv"> -->
-<!--       -->
-    <!-- <button width="300px" height="100px" style="position: fixed; top: 250px; right: 250px;"   onclick="switchVideoToFirst() "  class="button8" >Glow800<br>View</button> -->
-    <!-- <button  width="300px" height="100px" style="position: fixed; top: 550px; right: 250px;"  onclick="switchVideoToSecond() " class="button9" >Fl800<br>View</button> -->
-<!--    -->
-<!--    -->
-  <!-- <button src="buttons\zoom in lens.png" width="300px" height="100px" style="position: fixed; bottom: 50px; right: 939px;" id="btn3" onclick="kameramove_2() " class="button button7" >Zoom In Binocular</button> -->
-  <!-- <button href="index1.html" width="300px" height="100px" style="position: fixed; bottom: 50px; right: 450px;" id="btn2" onclick="button()" class="button button2" >Explore Equipment</button> -->
-  <!-- <input type="image" src="buttons\zoom in tv.png" width="300px" height="100px" style="position: fixed; bottom: 50px; right: 1450px;" id="btn4" onclick="kameramove_1() " class="sideviewtoggle myButton" > -->
-  
-  <!-- <button   style="position: fixed; bottom: 50px; right: 1450px;" id="btn4" onclick="kameramove_1() " class="button button1">Zoom In  Monitor</button> -->
-  <!-- </div> -->
-  <!-- <button   style="position: fixed; top: 50px; right: 1450px;" id="btn4" onclick="kameramove_1() " class="button button1">Auto balance</button> -->
-  <!-- <button   style="position: fixed; top: 50px; right: 1250px;" id="btn4" onclick="kameramove_1() " class="button button1">Fusion option</button> -->
-
-  
+ 
   <div id="fade" onClick="lightbox_close();"></div>
   
   
@@ -1267,29 +215,25 @@ outline: none;
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
     <hr>
     <ul>
-     <a href="index4.php">
+     <a href="index4.html">
       <i class='bx bx-home nav__icon' ></i>
-      <span class="d-none d-md-inline"> Lobby</span>
-       </a>
+       
+       Lobby</a>
     </ul>
     <hr>
     <ul>
       
       <a href="#" id="bianocular" onclick="kameramove_2() " style="pointer-events: none; color: #818181;" onmouseover="htext2()" onmouseout="stext2()">
         <i class='bx bx-zoom-in nav__icon'></i>
-      <span class="d-none d-md-inline"> Zoom In Binocular</span>
-
-        </a>
+        Zoom In Binocular</a>
     
     </ul>
     <hr>
     <ul>
      
-    <a href="#" id="bianocularout" onclick="kameramove_4() " style="pointer-events: none; color: #818181;" onmouseover="htext6()" onmouseout="stext6()" >
+    <a href="#" onclick="kameramove_4() " >
       <i class='bx bx-zoom-out nav__icon' ></i>
-      <span class="d-none d-md-inline">Zoom Out Binocular</span>
-      
-      </a>
+      Zoom Out Binocular</a>
   
 </ul>
 <hr>
@@ -1297,19 +241,15 @@ outline: none;
      
   <a href="#" id="monitor" onclick="kameramove_1() " style="pointer-events: none; color: #818181;" onmouseover="htext()" onmouseout="stext()">
     <i class='bx bx-tv nav__icon' ></i>
-    <span class="d-none d-md-inline">Zoom In Monitor</span>
-
-    </a>
+    Zoom In Monitor</a>
 
 </ul>
 <hr>
 <ul>
      
-  <a href="#" id="monitorout" onclick="kameramove_3() " style="pointer-events: none; color: #818181;" onmouseover="htext5()" onmouseout="stext5()">
+  <a href="#" onclick="kameramove_3() ">
     <i class='bx bxs-tv nav__icon' ></i>
-    <span class="d-none d-md-inline">Zoom Out Monitor</span>
-    
-    </a>
+    Zoom Out Monitor</a>
 
 </ul>
 <hr>
@@ -1317,9 +257,7 @@ outline: none;
      
   <a href="#" id="Glow800video" onclick="switchVideoToFirst() " style="pointer-events: none; color: #818181;" onmouseover="htext3()" onmouseout="stext3()">
     <i class='bx bxs-video-recording nav__icon' ></i>
-    <span class="d-none d-md-inline">Glow800</span>
-
-    </a>
+    Glow800</a>
 
 </ul>
 
@@ -1328,177 +266,62 @@ outline: none;
      
   <a href="#" id="Fl800video" onclick="switchVideoToSecond() " style="pointer-events: none; color: #818181;" onmouseover="htext4()" onmouseout="stext4()">
     <i class='bx bxs-video-plus nav__icon' ></i>
-    <span class="d-none d-md-inline">Fl800</span>
-
-    </a>
+    Fl800</a>
 
 </ul>
-<hr>
-<button  class="dropdown-btn">Explore Equipment 
-<i class='bx bx-chevron-down nav__icon'></i>
 
-  </button>
-  <div class="dropdown-container">
-   
 <hr>
 <ul>
      
   <a href="#" onclick="button()" >
-  <i class='bx bx-redo nav__icon'></i>
-    <span class="d-none d-md-inline"> Full Equipment</span>
-
-   </a>
-
-</ul>
-
-<!-- <hr>
-<ul>
-     
-  <a href="#" id="playBtn" onclick="play() " >
-    <i class='bx bxs-video-plus nav__icon' ></i>
-    play</a>
-
-</ul>
-
-<hr>
-<ul>
-     
-  <a href="#" id="playBtn1" onclick="play1() " >
     <i class='bx bx-collapse-horizontal nav__icon'></i>
-    play</a>
+    Explore Equipment</a>
 
-</ul> -->
+</ul>
+
 
 <hr>
 <ul>
  
     <a href="#" onclick="button1()">
-    <i class='bx bx-undo nav__icon' ></i>
-    <span class="d-none d-md-inline">Reset</span>
-
-      </a>
-  
-</ul>
- 
-<hr>
-<ul>
- 
-    <a href="#" onclick="button2()">
-    <i class='bx bx-revision nav__icon' ></i>
-    <span class="d-none d-md-inline">Free Roam</span>
-
-      </a>
-  
-</ul>
-
-<!-- <hr>
-<ul>
- 
-    <a href="#" onclick="button3()">
       <i class='bx bxs-contact nav__icon' ></i>
-    <span class="d-none d-md-inline">Auto balance</span>
-
-      </a>
-  
-</ul> -->
-
-<hr>
-<ul>
- 
-    <a href="#" onclick="button4()">
-    <i class='bx bx-repost nav__icon' ></i>
-    <span class="d-none d-md-inline">Monitor rotation</span>
-
-      </a>
+      Auto balancing</a>
   
 </ul>
-  </div>
 
 
 <ul>
-
  
   <a href="logout-user.php" id="clearButton" class="nav__logout" >
-    <i class='bx bx-log-out nav__icon'> </i>
-    <span class="d-none d-md-inline">Logout</span>
+    <i class='bx bx-log-out nav__icon'>
 
-  </a>
+    </i>Logout</a>
 
 
 </ul>
   </div>
 </nav>
-<div id="main">
-  <span onclick="openNav()"  ><img src="icons\opennav.png" class="opennav"></span>
-  </div>
+
+  <span onclick="openNav()"  ><img src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png" style="position: fixed; top:1%; right:96%; height:40px; width:auto; max-width:40px;" ></span>
 
 
   
   <script>
   function openNav() {
-    document.getElementById("mySidenav").style.width = "12%";
-    document.getElementById("playBtn").style.right = "80%";
-    document.getElementById("playBtn1").style.right = "72%";
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
   }
   
   function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
-    document.getElementById("playBtn").style.right = "89%";
-    document.getElementById("playBtn1").style.right = "82%";
   }
   </script>
 
-<script>
-/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    } else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-</script>
   </body>
   
   </html>
-  <!-- <script>
-    function button() {
-  console.log("switching to first");
-  document.getElementById("firstVideo").removeAttribute('template', 'src', "#firstVideo");
-  }
+
+
   
-  </script> -->
-  <div id="firstVideo" type='text/nunjucks'>
-    <a-sky muted id="skyVideo1" geometry="primitive: sphere;
-   "
-    position="-1.776 0.037 -2.239" rotation="-15.927 9.300 2.641" scale="0.0001 0.0001 0.000" src="glow800(muted).mp4">
-    </a-sky>
-    <a-sky muted id="skyVideo2" geometry="primitive: sphere;
-  "
-    position="-1.968 0.037 -2.208" rotation="-15.927 9.300 2.641" scale="0.0001 0.0001 0.000" visible="true"  src="glow800(muted).mp4">
-      </a-sky>
-    <a-sky muted id="skyVideo3" geometry="primitive: box;"
-    position="-0.670 0.764 -9.144 " rotation="0.000 9.910 0.000" scale="-2.477 1.628 0" src="glow800(muted).mp4">
-    </a-sky>
-    </div>
-  <div id="secondVideo" type='text/nunjucks'>
-    <a-sky id="skyVideo4" geometry="primitive: sphere;"
-    position="-1.776 0.037 -2.239" rotation="-15.927 9.300 2.641" scale="0.0001 0.0001 0.000"  src="glowout(muted).mp4">
-    </a-sky>
-    <a-sky id="skyVideo5" geometry="primitive: sphere;"
-    position="-1.968 0.037 -2.208" rotation="-15.927 9.300 2.641" scale="0.0001 0.0001 0.000" src="glowout(muted).mp4">
-    </a-sky>
-    <a-sky id="skyVideo6" geometry="primitive: box;" 
-    position="-0.670 0.764 -9.144" rotation="0.000 9.910 0.000" scale="-2.477 1.628 0" src="glowout(muted).mp4">
-    </a-sky>
-    <!-- <a-sphere position="-1 1 -1" color="green"></a-sphere> -->
-    
-  </div>
